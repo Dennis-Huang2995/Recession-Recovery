@@ -1,3 +1,22 @@
+library(quantmod)
+library(stargazer)
+library(fredr)
+library(tidyr)
+library(PASWR2)
+library(MASS)
+library(repmis)
+library(latex2exp)
+library(dplyr)
+library(ggplot2)
+library(tidyverse)
+library(RCurl)
+library(haven)
+library(forecast)
+library(depmixS4)
+fredr_set_key('30e6ecb242a73869e11cb35f6aa3afc3') # Copy and paste your FREDR key.
+
+
+
 VIX = drop_na(fredr("VIXCLS", observation_start = as.Date("1982-01-01")))
 recession = fredr('USREC')
 yieldcurve = fredr('T10Y3MM')
