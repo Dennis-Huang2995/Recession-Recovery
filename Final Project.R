@@ -42,6 +42,14 @@ camharvey = lm(recession ~ yieldcurve + yieldcurve.l1 + VIX, data=VIX)
 stargazer(camharvey, type="text", title="Recession Predictor", single.row=TRUE, 
           ci=TRUE, ci.level=0.95)
 
+VIX$probability = predict(camharvey, newdata = VIX, type = "response")
+
 camharvey = lm(recession ~ yieldcurve + yieldcurve.l1, data=VIX)
 stargazer(camharvey, type="text", title="Recession Predictor", single.row=TRUE, 
           ci=TRUE, ci.level=0.95)
+
+
+camharvey1 = glm(recession ~ yieldcurve + yieldcurve.l1 + VIX, data=VIX)
+stargazer(camharvey1, type="text", title="Recession Predictor", single.row=TRUE, 
+          ci=TRUE, ci.level=0.95)
+VIX$probability = predict(camharvey1, newdata = VIX, type = "response")
