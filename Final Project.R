@@ -11,6 +11,10 @@ library(ggplot2)
 library(tidyverse)
 library(RCurl)
 library(haven)
+library(margins)
+library(caTools)
+library(SDMTools)
+library(randomForest)
 library(forecast)
 library(depmixS4)
 fredr_set_key('30e6ecb242a73869e11cb35f6aa3afc3') # Copy and paste your FREDR key.
@@ -71,9 +75,25 @@ stargazer(camharvey6, type="text", title="Recession Predictor", single.row=TRUE,
 data$probability6 = predict(camharvey6, newdata = data, type = "response")
 
 
+# The Confusion Matrix and the Accuracy of Prediction
+# Start with a Naive Discriminant Threshold: 50% of emails are spam
+cm = confusion.matrix(data$recession, data$probability6, threshold = 0.4)
+cm
+tpr = cm[4] / (cm[4] + cm[3])
+fpr = cm[2] / (cm[2] + cm[1])
+acc = (cm[1] + cm[4]) / (cm[1] + cm[2] + cm[3] + cm[4])
 
 
 
+tpr
+fpr
+acc
+
+
+
+# For ease there is syntax to calculate directly.
+accuracy(data$recession, data$probability6, threshold = 0.4)
+accuracy(data$recession, data$probability6, threshold = 0.5)
 
 
 
