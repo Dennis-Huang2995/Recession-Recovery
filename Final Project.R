@@ -76,7 +76,6 @@ data$probability6 = predict(camharvey6, newdata = data, type = "response")
 
 
 # The Confusion Matrix and the Accuracy of Prediction
-# Start with a Naive Discriminant Threshold: 50% of emails are spam
 cm = confusion.matrix(data$recession, data$probability6, threshold = 0.4)
 cm
 tpr = cm[4] / (cm[4] + cm[3])
@@ -96,6 +95,40 @@ accuracy(data$recession, data$probability6, threshold = 0.4)
 accuracy(data$recession, data$probability6, threshold = 0.5)
 
 
+
+
+
+set.seed(04142020)
+sample = sample.split(data, SplitRatio = 0.80)
+train = subset(data, sample == TRUE)
+test = subset(data, sample == FALSE)
+
+
+
+logit = glm(recession ~ yieldcurve + yieldcurve.l1 + VIX + unemployment + Tedrate + consumer, data=train)
+stargazer(logit, type="text", title="Recession Predictor", single.row=TRUE, 
+          ci=TRUE, ci.level=0.95)
+
+
+
+# Fit the logit on the training set.  Apply the fitted logit to the test set.
+# Evaluation.
+test$probability7 = predict(logit, newdata = test, type = "response")
+
+
+
+# The Confusion Matrix and the Accuracy of Prediction
+cm = confusion.matrix(test$recession, test$probability7, threshold = 0.4)
+cm
+tpr = cm[4] / (cm[4] + cm[3])
+fpr = cm[2] / (cm[2] + cm[1])
+acc = (cm[1] + cm[4]) / (cm[1] + cm[2] + cm[3] + cm[4])
+
+
+
+tpr
+fpr
+acc
 
 
 # Time to unify this framework in the ARIMA structure.
