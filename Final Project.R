@@ -27,8 +27,8 @@ data = read.csv('VIXCLS.csv')
 names = c("date", "VIX", "yieldcurve", "recession", "consumer", "unemployment", "Tedrate")
 colnames(data) = names
 
-
-
+cor(data$yieldcurve, data$unemployment)
+cor(data$yieldcurve, data$VIX)
 
 
 data$yieldcurve = data$yieldcurve * 100
