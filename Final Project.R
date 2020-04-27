@@ -98,7 +98,21 @@ accuracy(data$recession, data$probability6, threshold = 0.5)
 
 
 
-set.seed(04142020)
+data = read.csv('VIXCLS.csv')
+names = c("date", "VIX", "yieldcurve", "recession", "consumer", "unemployment", "Tedrate")
+colnames(data) = names
+
+
+data$yieldcurve = data$yieldcurve * 100
+data$Tedrate = data$Tedrate * 100
+data$unemployment = data$unemployment * 10
+summary(data)
+
+data$yieldcurve.l1 = lag(data$yieldcurve, 1)
+
+
+
+set.seed(04272020)
 sample = sample.split(data, SplitRatio = 0.80)
 train = subset(data, sample == TRUE)
 test = subset(data, sample == FALSE)
@@ -181,3 +195,4 @@ summary(fm)
 
 post_probs = posterior(fm)
 matplot(post_probs$S1, type='l', col='red', main='Transition Probabilities', ylab='Probability')
+
